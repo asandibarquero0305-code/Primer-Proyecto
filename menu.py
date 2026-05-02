@@ -1,0 +1,53 @@
+def menu():
+    tokens = []
+    opcion = ""
+
+    while opcion != "9":
+        print("\n--- MENU ---")
+        print("1. Cargar tokens")
+        print("2. Mostrar tokens")
+        print("9. Salir")
+
+        opcion = input("Seleccione una opcion: ")
+
+        if opcion == "1":
+            tokens = cargarTokens(tokens)
+        elif opcion == "2":
+            mostrarTokens(tokens)
+        elif opcion == "9":
+            print("Saliendo...")
+        else:
+            print("Opcion invalida")
+
+
+def cargarTokens(tokens):
+    nombre = input("Ingrese el nombre del archivo: ")
+    separador = input("Ingrese el separador (ej: ->): ")
+
+    try:
+        with open(nombre, "r") as archivo:
+            for linea in archivo:
+                linea = linea.strip()
+                if separador in linea:
+                    partes = linea.split(separador)
+                    original = partes[0].strip()
+                    reemplazo = partes[1].strip()
+                    tokens.append((original, reemplazo))
+        print("Tokens cargados correctamente")
+    except:
+        print("Error al abrir el archivo")
+
+    return tokens
+
+
+def mostrarTokens(tokens):
+    if len(tokens) == 0:
+        print("No hay tokens cargados")
+    else:
+        print("\nTokens:")
+        for t in tokens:
+            print(t[0], "->", t[1])
+
+
+# programa principal
+menu()
