@@ -48,6 +48,21 @@ def mostrarTokens(tokens):
         for t in tokens:
             print(t[0], "->", t[1])
 
+def agregarModificarTokens(tokens):
+    cadena = input("Ingrese los tokens (ej: if->SI,for->PARA): ")
+    separador = input("Separador (ej: ->): ")
 
+    pares = cadena.split(",")
+
+    for p in pares:
+        if separador in p:
+            partes = p.split(separador)
+            original = partes[0].strip()
+            reemplazo = partes[1].strip()
+
+            tokens.append((original, reemplazo))
+            print("Token agregado:", original)
+
+    return tokens
 # programa principal
 menu()
