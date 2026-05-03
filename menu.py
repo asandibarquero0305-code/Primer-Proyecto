@@ -6,6 +6,7 @@ def menu():
         print("\n--- MENU ---")
         print("1. Cargar tokens")
         print("2. Mostrar tokens")
+        print("3. Agregar/modificar tokens")
         print("9. Salir")
 
         opcion = input("Seleccione una opcion: ")
@@ -14,6 +15,8 @@ def menu():
             tokens = cargarTokens(tokens)
         elif opcion == "2":
             mostrarTokens(tokens)
+        elif opcion=="3":
+            tokens=agregarModificarTokens(tokens)
         elif opcion == "9":
             print("Saliendo...")
         else:
@@ -52,6 +55,10 @@ def agregarModificarTokens(tokens):
     cadena = input("Ingrese los tokens (ej: if->SI,for->PARA): ")
     separador = input("Separador (ej: ->): ")
 
+    if cadena.strip() == "":
+        print("Entrada vacia")
+        return tokens
+
     pares = cadena.split(",")
 
     for p in pares:
@@ -60,9 +67,23 @@ def agregarModificarTokens(tokens):
             original = partes[0].strip()
             reemplazo = partes[1].strip()
 
-            tokens.append((original, reemplazo))
-            print("Token agregado:", original)
+            encontrado = False
+
+            for i in range(len(tokens)):
+                if tokens[i][0] == original:
+                    print("Token ya existe, se actualiza:", original)
+                    tokens[i] = (original, reemplazo)
+                    encontrado = True
+                    break
+
+            if not encontrado:
+                print("Token agregado:", original)
+                tokens.append((original, reemplazo))
+        else:
+            print("Formato incorrecto:", p)
 
     return tokens
+
 # programa principal
 menu()
+
