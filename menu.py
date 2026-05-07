@@ -1,12 +1,14 @@
 def menu():
     '''
-
+    Funcionalidad: Muestra el menú principal del programa y permite acceder a las diferentes opciones.
+    Entrada: No recibe ningun dato
+    Salida: No retorna ningun valor.
     '''
     tokens = []
     bitacora = []
     opcion = ""
     while opcion != "9":
-        print("\n--- MENU ---")
+        print("\n----- MENU -----")
         print("1. Cargar tokens")
         print("2. Mostrar tokens")
         print("3. Agregar/modificar tokens")
@@ -29,7 +31,10 @@ def menu():
 
 def cargarTokens(tokens, bitacora):
     '''
-
+    Funcionalidad: Carga tokens desde un archivo de texto y los guarda en la lista de los tokens, evita duplicados.
+    Entrada: tokens: lista con los tokens que se tienen hasta el momento.
+            bitacora: lista donde se guardan los registros realizados.
+    Salida: Retorna la lista de tokens actualizada.
     '''
     nombre = input("Ingrese el nombre del archivo: ")
     separador = input("Ingrese el separador (ej: ->): ")
@@ -61,7 +66,9 @@ def cargarTokens(tokens, bitacora):
 
 def mostrarTokens(tokens):
     '''
-
+    Funcionalidad: Muestra todos los tokens almacenados hasta el momento en la memoria.
+    Entrada: tokens: lista con los tokens que se tienen hasta el momento.
+    Salida: No retorna ningun valor.
     '''
     if len(tokens) == 0:
         print("No hay tokens cargados")
@@ -72,7 +79,10 @@ def mostrarTokens(tokens):
 
 def agregarModificarTokens(tokens, bitacora):
     '''
-
+    Funcionalidad: Permite agregar nuevos tokens o modificar los tokens existentes en la lista.
+    Entrada: tokens: lista con los tokens que se tienen hasta el momento.
+            bitacora: lista donde se guardan los registros realizados.
+    Salida: Retorna la lista de tokens actualizada.
     '''
     cadena = input("Ingrese los tokens (ej: if->SI,for->PARA): ")
     separador = input("Separador (ej: ->): ")
@@ -103,7 +113,10 @@ def agregarModificarTokens(tokens, bitacora):
 
 def guardarTokens(tokens, bitacora):
     '''
-
+    Funcionalidad: Guarda los tokens actuales en un archivo de texto.
+    Entrada: tokens: lista con los tokens que se tienen hasta el momento.
+            bitacora: lista donde se guardan los registros realizados.
+    Salida: No retorna ningun valor.
     '''
     if len(tokens) == 0:
         print("No hay tokens para guardar")
@@ -123,7 +136,10 @@ def guardarTokens(tokens, bitacora):
 
 def registrar(bitacora, accion):
     '''
-
+    Funcionalidad: Registra acciones realizadas por el usuario junto con la fecha y hora.
+    Entrada: bitacora: lista donde se guardan los registros realizados. 
+            accion: texto con la acción realizada.
+    Salida: No retorna valores.
     '''
     from datetime import datetime
     fecha = datetime.now()
