@@ -1,4 +1,7 @@
 def menu():
+    '''
+
+    '''
     tokens = []
     bitacora = []
     opcion = ""
@@ -25,6 +28,9 @@ def menu():
             print("Opcion invalida")
 
 def cargarTokens(tokens, bitacora):
+    '''
+
+    '''
     nombre = input("Ingrese el nombre del archivo: ")
     separador = input("Ingrese el separador (ej: ->): ")
     try:
@@ -54,6 +60,9 @@ def cargarTokens(tokens, bitacora):
     return tokens
 
 def mostrarTokens(tokens):
+    '''
+
+    '''
     if len(tokens) == 0:
         print("No hay tokens cargados")
     else:
@@ -62,6 +71,9 @@ def mostrarTokens(tokens):
             print(t[0], "->", t[1])
 
 def agregarModificarTokens(tokens, bitacora):
+    '''
+
+    '''
     cadena = input("Ingrese los tokens (ej: if->SI,for->PARA): ")
     separador = input("Separador (ej: ->): ")
     if cadena.strip() == "":
@@ -90,6 +102,9 @@ def agregarModificarTokens(tokens, bitacora):
     return tokens
 
 def guardarTokens(tokens, bitacora):
+    '''
+
+    '''
     if len(tokens) == 0:
         print("No hay tokens para guardar")
         return
@@ -107,6 +122,9 @@ def guardarTokens(tokens, bitacora):
         registrar(bitacora, "Error al guardar archivo")
 
 def registrar(bitacora, accion):
+    '''
+
+    '''
     from datetime import datetime
     fecha = datetime.now()
     bitacora.append((fecha, accion))
