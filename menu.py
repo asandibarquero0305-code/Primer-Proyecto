@@ -13,8 +13,11 @@ def menu():
         print("2. Mostrar tokens")
         print("3. Agregar/modificar tokens")
         print("4. Guardar tokens")
+        print("5. Traducir codigo")
+        print("6. Generar CSV")
+        print("7. Generar HTML")
         print("9. Salir")
-        opcion = input("Seleccione una opcion: ")
+        opcion = input("Seleccione una opcion: ")           #falta agregar 5-6-7, cuando cree las funciones las agrego en elif
         if opcion == "1":
             tokens = cargarTokens(tokens, bitacora)
         elif opcion == "2":
@@ -145,4 +148,51 @@ def registrar(bitacora, accion):
     fecha = datetime.now()
     bitacora.append((fecha, accion))
 
+
+
+def traducirCodigo(tokens, bitacora):
+    """Funcionalidad: Traduce un archivo usando los tokens que están cargados
+    Entrada: Tokens=Lista de Tokens, Bitacora=Lista de registros
+    Salida: Retorna estadisticas de reemplazos"""
+    import re
+    import time
+
+    if len(tokens)==0:
+        print("No hay tokens cargados actualmente")
+        return{}
+    
+    archivoEntrada=input("Archivo de Entrada: ")
+    archivoSalida=input("Archivo de Salida: ")
+
+    reemplazo={}
+    inicio=time.time()
+
+    try:
+        with open(archivoEntrada, "r")as entrada:
+            lineas=entrada.readlines()
+        resultado=[]
+        cantidadDePalabras=0
+        cantidadDeReemplazos=0
+        for linea in lineas:
+            palabras=re.findall(r'\w+|[^\w\s]', linea)
+            lineaNueva=""
+            for palabra in palabras:
+                if palabra.isnumeric():
+                    lineaNueva+=palabra
+                else:
+                    reemplazada=False
+                    for token in tokens:
+                        original=token[0]
+                        nuevo=token[1]
+                        if palabra==original:
+                            lineaNueva+=nuevo
+                            reemplazada=True
+                            cantidadDeReemplazos+=1
+                            if original in reemplazo:
+                                reemplazo[original]["cantidad"]+=1
+                            else:
+                                reemplazo[original]={"nuevo": nuevo,"cantidad": 1} #revisar este if, se supone q debería de reemplazar, *****hay q probar*****
+                                registrar(bitacora, "Reemplazo realizado correctamente: "+original)
+                                break
+                            #falta terminar la funcion para ver la cantidad de reemplazos y palabras duracion, etc etc, validaciones etc etc
 menu()
