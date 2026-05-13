@@ -194,5 +194,34 @@ def traducirCodigo(tokens, bitacora):
                                 reemplazo[original]={"nuevo": nuevo,"cantidad": 1} #revisar este if, se supone q debería de reemplazar, *****hay q probar*****
                                 registrar(bitacora, "Reemplazo realizado correctamente: "+original)
                                 break
-                            #falta terminar la funcion para ver la cantidad de reemplazos y palabras duracion, etc etc, validaciones etc etc
-menu()
+                    if not reemplazada:
+                        lineaNueva+=palabra
+                if palabra not in [".", ",", ":", ";", ")", "]", "}"]:
+                    lineaNueva+=" "
+                cantidadDePalabras+=1
+            resultado.append(lineaNueva)
+        with open(archivoSalida, "w") as salida:
+            for linea in resultado:
+                salida.write(linea+"\n")
+        fin=time.time()
+        duracion=fin-inicio
+        porcentaje=0
+        
+        if cantidadDePalabras>0:
+            porcentaje=(cantidadDeReemplazos/cantidadDePalabras)*100
+        print("Se tradujo el codigo de manera correcta")
+        registrar(bitacora,"Codigo Traducido")
+        return {
+
+            "reemplazos": reemplazo,
+            "totalReemplazos": cantidadDeReemplazos,
+            "totalPalabras": cantidadDePalabras,
+            "porcentaje": porcentaje,
+            "duracion": duracion
+        }
+
+    except:
+        print("Error al traducir archivo")
+        registrar(bitacora, "Error al traducir archivo")
+    return {}
+                            
