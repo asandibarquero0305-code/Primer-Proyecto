@@ -225,3 +225,78 @@ def traducirCodigo(tokens, bitacora):
         registrar(bitacora, "Error al traducir archivo")
     return {}
                             
+
+def generarHTML(estadisticas, bitacora):
+    '''
+        Funcionalidad:
+        Genera un archivo HTML con un reporte de la traduccion
+        Entrada:
+        estadisticas: diccionario con la información de los reemplazos y estadísticas.
+        bitacora: lista donde se guardan los registros del sistema.
+        Salida:
+        No retorna valores.
+        Genera un archivo HTML y registra la acción en la bitácora.
+    '''
+    from datetime import datetime
+    if estadisticas == {}:
+        print("No hay datos para generar HTML")
+        return
+
+    titulo = input("Titulo del reporte: ")
+    fecha = datetime.now()
+    nombre = "reporteHTML_" + fecha.strftime("%d-%m-%Y_%H-%M-%S") + ".html"
+
+    try:
+        with open(nombre, "w") as archivo:
+            archivo.write("<html>\n")
+            archivo.write("<head>\n")
+            archivo.write("<title>" + titulo + "</title>\n")
+            archivo.write("</head>\n")
+            archivo.write("<body>\n")
+            archivo.write("<h1>Reporte de Traduccion</h1>\n")
+            archivo.write("<h2>")
+            archivo.write(fecha.strftime("%d/%m/%Y %H:%M:%S"))
+            archivo.write("</h2>\n")
+            archivo.write("<p>Total reemplazos: " + str(estadisticas["totalReemplazos"]) + "</p>\n")
+            archivo.write("<p>Porcentaje reemplazado: ")
+            archivo.write(str(round(estadisticas["porcentaje"], 2)))
+            archivo.write("%</p>\n")
+            archivo.write("<p>Duracion: ")
+            archivo.write(str(round(estadisticas["duracion"], 2)))
+            archivo.write(" segundos</p>\n")
+            archivo.write("<table border='1'>\n")
+            archivo.write("<tr>")
+            archivo.write("<th>Original</th>")
+            archivo.write("<th>Reemplazo</th>")
+            archivo.write("<th>Cantidad</th>")
+            archivo.write("</tr>\n")
+
+            reemplazos = estadisticas["reemplazos"]
+            color = True
+
+            for palabra in reemplazos:
+                if color:
+                    archivo.write("<tr bgcolor='lightgray'>")
+                else:
+                    archivo.write("<tr bgcolor='white'>")
+
+                archivo.write("<td align='center'>" + palabra + "</td>")
+                archivo.write("<td align='center'>")
+                archivo.write(reemplazos[palabra]["nuevo"])
+                archivo.write("</td>")
+                archivo.write("<td align='center'>")
+                archivo.write(str(reemplazos[palabra]["cantidad"]))
+                archivo.write("</td>")
+                archivo.write("</tr>\n")
+
+                color = not color
+
+            archivo.write("</table>\n")
+            archivo.write("</body>\n")
+            archivo.write("</html>\n")
+
+        print("Reporte HTML generado")
+        registrar(bitacora, "Reporte HTML generado")
+
+    except:
+        print("Error al generar HTML")
