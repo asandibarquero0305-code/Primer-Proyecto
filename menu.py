@@ -17,7 +17,7 @@ def menu():
         print("6. Generar CSV")
         print("7. Generar HTML")
         print("9. Salir")
-        opcion = input("Seleccione una opcion: ")           #falta agregar 5-6-7, cuando cree las funciones las agrego en elif
+        opcion = input("Seleccione una opcion: ")
         if opcion == "1":
             tokens = cargarTokens(tokens, bitacora)
         elif opcion == "2":
@@ -26,6 +26,12 @@ def menu():
             tokens = agregarModificarTokens(tokens, bitacora)
         elif opcion == "4":
             guardarTokens(tokens, bitacora)
+        elif opcion == "5":
+            estadisticas = traducirCodigo(tokens, bitacora)
+        elif opcion == "6":
+            generarCSV(estadisticas, bitacora)
+        elif opcion == "7":
+            generarHTML(estadisticas, bitacora)
         elif opcion == "9":
             print("Saliendo...")
             registrar(bitacora, "Se salió del programa")
