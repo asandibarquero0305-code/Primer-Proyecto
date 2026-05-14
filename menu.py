@@ -230,7 +230,32 @@ def traducirCodigo(tokens, bitacora):
         print("Error al traducir archivo")
         registrar(bitacora, "Error al traducir archivo")
     return {}
-                            
+
+def generarCSV(estadisticas, bitacora):
+    '''
+    Funcionalidad: Genera un archivo CSV con las estadísticas de traducción.
+    Entrada: Estadisticas: diccionario con estadísticas y reemplazos.
+             Bitacora: Lista donde se guardan los registros realizados.
+    Salida: No retorna valores.
+    '''
+
+    if estadisticas == {}:
+        print("No hay datos para generar CSV")
+        return
+    nombre = input("Nombre del archivo CSV: ")
+    try:
+        with open(nombre, "w") as archivo:
+            archivo.write("Original,Reemplazo,Cantidad\n")
+            reemplazos = estadisticas["reemplazos"]
+            for palabra in reemplazos:
+                nuevo = reemplazos[palabra]["nuevo"]
+                cantidad = reemplazos[palabra]["cantidad"]
+                linea = palabra + "," + nuevo + "," + str(cantidad) + "\n"
+                archivo.write(linea)
+        print("CSV generado correctamente")
+        registrar(bitacora, "CSV generado")
+    except:
+        print("Error al generar CSV")
 
 def generarHTML(estadisticas, bitacora):
     '''
