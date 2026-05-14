@@ -8,7 +8,6 @@ def menu():
     bitacora = []
     opcion = ""
     while opcion != "9":
-        print("\n----- MENU -----")
         print("1. Cargar tokens")
         print("2. Mostrar tokens")
         print("3. Agregar/modificar tokens")
@@ -16,7 +15,9 @@ def menu():
         print("5. Traducir codigo")
         print("6. Generar CSV")
         print("7. Generar HTML")
-        print("9. Salir")
+        print("8. Filtrar por fecha")
+        print("9. Filtrar por palabra")
+        print("10. Salir")
         opcion = input("Seleccione una opcion: ")
         if opcion == "1":
             tokens = cargarTokens(tokens, bitacora)
@@ -32,7 +33,11 @@ def menu():
             generarCSV(estadisticas, bitacora)
         elif opcion == "7":
             generarHTML(estadisticas, bitacora)
+        elif opcion == "8":
+            filtrarPorFecha(bitacora)
         elif opcion == "9":
+            filtrarPorPalabra(bitacora)
+        elif opcion == "10":
             print("Saliendo...")
             registrar(bitacora, "Se salió del programa")
         else:
@@ -154,8 +159,6 @@ def registrar(bitacora, accion):
     fecha = datetime.now()
     bitacora.append((fecha, accion))
 
-
-
 def traducirCodigo(tokens, bitacora):
     """Funcionalidad: Traduce un archivo usando los tokens que están cargados
     Entrada: Tokens=Lista de Tokens, Bitacora=Lista de registros
@@ -256,6 +259,38 @@ def generarCSV(estadisticas, bitacora):
         registrar(bitacora, "CSV generado")
     except:
         print("Error al generar CSV")
+
+def filtrarPorFecha(bitacora):
+    '''
+    Funcionalidad: Muestra Los registros de la bitácora según una fecha escogida.
+    Entrada: Bitacora:Lista donde se guardan los registros realizados.
+    Salida: No retorna valores.
+    '''
+    fechaBuscada = input("Ingrese la fecha (YYYY-MM-DD): ")
+    encontrado = False
+    for registro in bitacora:
+        fecha = str(registro[0])
+        if fechaBuscada in fecha:
+            print(registro[0], "-", registro[1])
+            encontrado = True
+    if not encontrado:
+        print("No se encontraron registros para esa fecha")
+
+def filtrarPorPalabra(bitacora):
+    '''
+    Funcionalidad: Muestra registros de la bitácora que contengan una palabra clave.
+    Entrada: Bitacora: lista donde se guardan los registros realizados.
+    Salida: No retorna valores.
+    '''
+    palabra = input("Ingrese la palabra clave: ")
+    encontrado = False
+    for registro in bitacora:
+        accion = registro[1]
+        if palabra.lower() in accion.lower():
+            print(registro[0], "-", accion)
+            encontrado = True
+    if not encontrado:
+        print("No se encontraron registros")
 
 def generarHTML(estadisticas, bitacora):
     '''
