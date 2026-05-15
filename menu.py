@@ -7,7 +7,7 @@ def menu():
     tokens = []
     bitacora = []
     opcion = ""
-    while opcion != "9":
+    while opcion != "9": # El menú se repite hasta que el usuario decida salir con el 10
         print("1. Cargar tokens")
         print("2. Mostrar tokens")
         print("3. Agregar/modificar tokens")
@@ -52,7 +52,7 @@ def cargarTokens(tokens, bitacora):
     '''
     nombre = input("Ingrese el nombre del archivo: ")
     separador = input("Ingrese el separador (ej: ->): ")
-    try:
+    try: # Se abre el archivo en modo lectura para obtener los tokens
         with open(nombre, "r") as archivo:
             for linea in archivo:
                 linea = linea.strip()
@@ -64,7 +64,7 @@ def cargarTokens(tokens, bitacora):
                     original = partes[0].strip()
                     reemplazo = partes[1].strip()
                     encontrado = False
-                    for i in range(len(tokens)):
+                    for i in range(len(tokens)): # Se revisa si el token ya existe para evitar duplicados
                         if tokens[i][0] == original:
                             tokens[i] = (original, reemplazo)
                             encontrado = True
@@ -88,7 +88,7 @@ def mostrarTokens(tokens):
         print("No hay tokens cargados")
     else:
         print("\n--- TOKENS ---")
-        for t in tokens:
+        for t in tokens: # Se recorren todos los tokens almacenados para mostrarlos
             print(t[0], "->", t[1])
 
 def agregarModificarTokens(tokens, bitacora):
@@ -103,7 +103,7 @@ def agregarModificarTokens(tokens, bitacora):
     if cadena.strip() == "":
         print("Entrada vacia")
         return tokens
-    pares = cadena.split(",")
+    pares = cadena.split(",") # Se separan los distintos pares de tokens ingresados
     for p in pares:
         if separador in p:
             partes = p.split(separador)
@@ -111,7 +111,7 @@ def agregarModificarTokens(tokens, bitacora):
             reemplazo = partes[1].strip()
             encontrado = False
             for i in range(len(tokens)):
-                if tokens[i][0] == original:
+                if tokens[i][0] == original: # Si el token ya existe, solamente se actualiza el reemplazo
                     print("Token ya existe, se actualiza:", original)
                     tokens[i] = (original, reemplazo)
                     encontrado = True
@@ -138,7 +138,7 @@ def guardarTokens(tokens, bitacora):
     nombre = input("Nombre del archivo: ")
     separador = input("Separador (ej: ->): ")
     try:
-        with open(nombre, "w") as archivo:
+        with open(nombre, "w") as archivo: # Se crea o sobrescribe el archivo donde se guardarán los tokens
             for t in tokens:
                 linea = t[0] + separador + t[1] + "\n"
                 archivo.write(linea)
@@ -157,7 +157,7 @@ def registrar(bitacora, accion):
     '''
     from datetime import datetime
     fecha = datetime.now()
-    bitacora.append((fecha, accion))
+    bitacora.append((fecha, accion)) # Se guarda la fecha junto con la acción realizada
 
 def traducirCodigo(tokens, bitacora):
     """Funcionalidad: Traduce un archivo usando los tokens que están cargados
@@ -183,7 +183,7 @@ def traducirCodigo(tokens, bitacora):
         cantidadDePalabras=0
         cantidadDeReemplazos=0
         for linea in lineas:
-            palabras=re.findall(r'\w+|[^\w\s]', linea)
+            palabras=re.findall(r'\w+|[^\w\s]', linea) # permite separar palabras y símbolos correctamente
             lineaNueva=""
             for palabra in palabras:
                 if palabra.isnumeric():
@@ -248,7 +248,7 @@ def generarCSV(estadisticas, bitacora):
     nombre = input("Nombre del archivo CSV: ")
     try:
         with open(nombre, "w") as archivo:
-            archivo.write("Original,Reemplazo,Cantidad\n")
+            archivo.write("Original,Reemplazo,Cantidad\n")  # Se escriben los títulos de las columnas del CSV
             reemplazos = estadisticas["reemplazos"]
             for palabra in reemplazos:
                 nuevo = reemplazos[palabra]["nuevo"]
@@ -330,7 +330,7 @@ def generarHTML(estadisticas, bitacora):
             archivo.write("<p>Duracion: ")
             archivo.write(str(round(estadisticas["duracion"], 2)))
             archivo.write(" segundos</p>\n")
-            archivo.write("<table border='1'>\n")
+            archivo.write("<table border='1'>\n") # Se crea una tabla para mostrar las estadísticas
             archivo.write("<tr>")
             archivo.write("<th>Original</th>")
             archivo.write("<th>Reemplazo</th>")
@@ -366,3 +366,6 @@ def generarHTML(estadisticas, bitacora):
 
     except:
         print("Error al generar HTML")
+        registrar(bitacora, "Error al generar HTML")
+# programa principal
+menu()
